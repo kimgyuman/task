@@ -1,5 +1,5 @@
 package com.board.controller;
 
-public class hometest {
+public class fromhome1 {
 
 }
