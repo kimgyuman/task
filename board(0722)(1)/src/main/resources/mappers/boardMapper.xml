@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.mappers.board">
+
+	<!-- 게시물 목록 -->
+	<select id="list" resultType="com.board.domain.BoardVO">
+	select	
+		seq_counsel, title_counsel, content_counsel, writer_counsel, regDate_counsel, viewCnt_counsel
+	from
+		counsel_info
+	order by regdate_counsel desc
+	</select>
+
+	<!-- 게시물 작성 -->
+	<insert id="write" parameterType="com.board.domain.BoardVO" useGeneratedKeys="true" keyProperty="seq_counsel">
+	insert into
+		counsel_info(title_counsel, content_counsel, writer_counsel)
+	values(
+		#{title_counsel}, #{content_counsel}, #{writer_counsel})
+	</insert>
+
+	<!-- 게시물 조회 -->
+	<select id="view" parameterType="int" resultType="com.board.domain.BoardVO">
+	 select 
+	 	seq_counsel, title_counsel, content_counsel, writer_counsel, regDate_counsel, viewCnt_counsel
+	 from 
+	 	counsel_info
+	 where
+	 	seq_counsel = #{seq_counsel}   
+	</select>
+
+	<!-- 게시물 수정 -->
+	<update id="update" parameterType="com.board.domain.BoardVO" >
+	 update counsel_info
+	 set
+	 	title_counsel = #{title_counsel},
+	 	content_counsel = #{content_counsel},
+	    writer_counsel = #{writer_counsel}
+	 where seq_counsel = #{seq_counsel}
+	</update>
+
+	<!-- 게시물 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete
+			from counsel_info
+		where seq_counsel = #{seq_counsel}
+	</delete> 
+	
+	
+	
+	<!-- 5일 지난 게시글 삭제  -->
+	<delete id="expiredBoard" >
+		<![CDATA[ 
+			DELETE	
+			FROM	counsel_info
+			WHERE	DATEDIFF(regdate_counsel, NOW()) <= -5
+		]]>
+	</delete> 
+	
+	<!-- 비속어 검색 -->
+	<select id="selectMasking" resultType="com.board.domain.BoardVO">
+		SELECT * 
+		FROM counsel_info 
+		WHERE title_counsel REGEXP '말투|건성|뻔뻔|싸가지|찌질' 
+		 or content_counsel REGEXP '말투|건성|뻔뻔|싸가지|찌질'
+	</select>
+	
+	<!-- 비속어 업데이트 -->
+	<update id="updateMasking" parameterType="com.board.domain.BoardVO" >
+	 update counsel_info
+	 set
+	 	title_counsel = #{title_counsel},
+	 	content_counsel = #{content_counsel}
+	 where seq_counsel = #{seq_counsel}
+	</update>
+
+	
+	
+
+
+
+
+
+
+
+
+
+</mapper>
