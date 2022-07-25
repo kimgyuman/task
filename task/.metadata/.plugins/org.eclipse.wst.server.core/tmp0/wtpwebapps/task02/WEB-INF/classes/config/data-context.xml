@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmls="http://www.springframework.org/schema/beans"
+		xmls:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" >
+
+<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<property name="username"	value="#"/>
+	<property name="password"	value="#"/>
+	<property name="url"	value="#"/>
+	<property name="driverClassName"	value="#"/>
+</bean>
+
+<!-- sqlSessionFactory -->
+<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="dataSource"	ref="dataSource"/>
+	<property name="mapperLocations"	value="classpath:/mybatis/mappers/*Mapper.xml"/>
+	<property name="configLocation"	value="classpath:/config/mybatisConfig.xml"/>
+	<property name="driverClassName"	value="#"/>
+</bean>
+
+<!-- sqlSessionTemplate -->
+<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactoryBean"/>
+</bean>
+
+</beans>

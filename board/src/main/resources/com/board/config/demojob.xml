@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd 
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd 
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<job id="demoJob"
+		xmlns="http://www.springframework.org/schema/batch">
+		<description> Spring batch demo </description>
+		<step id="demoStep01" next="demoStep02">
+			<tasklet ref="demo01Tasklet" />
+		</step>
+		<step id="demoStep02">
+			<tasklet ref="demo02Tasklet" />
+		</step>
+	</job>
+
+	<bean id="demo01Tasklet"
+		class="com.board.tasklet.Demo01Tasklet" scope="step" />
+		<!-- scope {step: 각 스텝마다 스텝에 종속된 고유한 빈을 만든다, 
+					prototype: 빈을 reference (참조) 할 때마다 새로운 빈을 반환한다, 
+					singleton: 배치 job이 생성될 때 하나의 고유한 빈을 만든다 }  -->
+	<bean id="demo02Tasklet"
+		class="com.board.tasklet.Demo02Tasklet" scope="step" />
+		
+	<!-- 스프링 배치의 metadata를 담당하는 빈. -->
+	<bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+	</bean>
+	
+	<!-- 스프링 배치 job을 실행하는 빈. -->
+	<bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+	
+	<!-- 스프링 배치 job을 테스트할 때 쓰는 유틸리티. -->
+	<bean id="jobLauncherTestUtils"
+		class="org.springframework.batch.test.JobLauncherTestUtils" />
+</beans>

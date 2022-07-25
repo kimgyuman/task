@@ -1,0 +1,11 @@
+INDEX VERSION 1.131
+C:\web\task\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\805836054.index
+\board\src\main\java
+C:\web\task\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\109925717.index
+\task\src\main\java
+C:\web\task\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3706471824.index
+\task02\src\main\java
+C:\web\task\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3369004664.index
+\prac\src\main\java
+C:\web\task\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1157334622.index
+\prac\src\main\java
